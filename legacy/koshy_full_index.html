@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rollingstone Revelations — The Complete Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEFE6; --paper2:#E3E6D9; --ink:#232E3B; --rule:#C7CCBA;
+    --lac:#8E2B26; --stamp:#2B4C8C; --green:#2F6B4E; --mut:#6A7263;
+    --serif:'Spectral',Charter,Georgia,serif;
+    --disp:'Libre Caslon Display','Iowan Old Style',Georgia,serif;
+    --mono:'IBM Plex Mono','SF Mono',Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.55;
+       border-left:10px double var(--lac);min-height:100vh}
+  .wrap{max-width:880px;margin:0 auto;padding:34px 22px 80px}
+
+  /* ---------- masthead ---------- */
+  header{position:relative;padding-bottom:22px;border-bottom:2px solid var(--ink)}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;color:var(--mut);text-transform:uppercase}
+  h1{font-family:var(--disp);font-weight:400;font-size:clamp(2rem,6vw,3.3rem);line-height:1.06;margin:.35rem 0 .6rem}
+  h1 a{color:inherit;text-decoration:none}
+  .standfirst{max-width:56ch;font-size:.98rem}
+  .standfirst em{color:var(--mut)}
+  .stamp{position:absolute;right:0;top:6px;transform:rotate(-7deg) scale(.6);opacity:0;
+         border:2.5px solid var(--lac);color:var(--lac);border-radius:4px;padding:6px 12px;
+         font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-align:center;line-height:1.5;
+         transition:opacity .5s ease .3s, transform .5s cubic-bezier(.2,1.6,.4,1) .3s;pointer-events:none}
+  .stamp.show{opacity:.9;transform:rotate(-7deg) scale(1)}
+  body.reading .standfirst,body.reading .stamp{display:none}
+  body.reading h1{font-size:clamp(1.2rem,3.5vw,1.6rem)}
+  body.reading header{padding-bottom:12px}
+
+  /* ---------- reconciliation spine ---------- */
+  .spine{margin:26px 0 8px}
+  .spine-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .spine-head .t{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+  #status{font-family:var(--mono);font-size:.72rem;color:var(--mut)}
+  #status.ok{color:var(--green)}
+  .bars{display:flex;align-items:flex-end;gap:6px;height:96px;margin-top:14px;overflow-x:auto;padding-bottom:2px}
+  .yr{flex:1 0 26px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;background:none;border:none;padding:0;font:inherit;color:inherit}
+  .yr .exp{width:100%;max-width:30px;display:flex;align-items:flex-end;border:1px solid var(--rule);border-bottom:2px solid var(--ink);background:var(--paper2)}
+  .yr .got{width:100%;background:var(--stamp);height:0%;transition:height .6s ease, background .4s ease}
+  .yr.match .got{background:var(--green)}
+  .yr.gap .exp{border:none;background:none;border-bottom:2px dotted var(--rule)}
+  .yr .lab{font-family:var(--mono);font-size:.62rem;color:var(--mut)}
+  .yr .n{font-family:var(--mono);font-size:.6rem;color:var(--ink);min-height:.9em}
+  .yr.match .n{color:var(--green)}
+  .yr:hover .lab,.yr:focus-visible .lab{color:var(--lac)}
+
+  /* ---------- controls ---------- */
+  .tools{display:none;gap:8px;flex-wrap:wrap;margin:18px 0 6px;padding:12px;border:1px solid var(--rule);background:var(--paper2);border-radius:3px}
+  .tools.on{display:flex}
+  input{font-family:var(--mono);font-size:.8rem;padding:8px 10px;border:1px solid var(--rule);border-radius:3px;background:var(--paper);color:var(--ink);flex:1;min-width:180px}
+  input::placeholder{color:var(--mut)}
+  .tools button{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:8px 14px;
+    border:1px solid var(--ink);border-radius:3px;background:transparent;color:var(--ink);cursor:pointer}
+  .tools button:hover{border-color:var(--lac);color:var(--lac)}
+  :focus-visible{outline:2px solid var(--lac);outline-offset:2px}
+
+  /* ---------- register ---------- */
+  .yhead{display:flex;align-items:baseline;gap:14px;margin:44px 0 6px;scroll-margin-top:16px}
+  .yhead .y{font-family:var(--disp);font-size:2rem;line-height:1}
+  .yhead .meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--mut)}
+  .yhead .meta .v{color:var(--green)} .yhead .meta .x{color:var(--lac)}
+  .row{display:grid;grid-template-columns:3.2ch 6.5ch 1fr auto;gap:12px;align-items:baseline;
+       padding:9px 0;border-bottom:1px solid var(--rule);font-size:.95rem}
+  .row .ser{font-family:var(--mono);font-size:.68rem;color:var(--mut)}
+  .row .d{font-family:var(--mono);font-size:.74rem;white-space:nowrap}
+  .row a{color:var(--ink);text-decoration:none;font-weight:500}
+  .row a:hover{color:var(--stamp);text-decoration:underline;text-underline-offset:3px}
+  .row:hover .d{color:var(--lac)}
+  .row .lb{font-family:var(--mono);font-size:.64rem;color:var(--mut);text-align:right;max-width:220px}
+  body.reading .spine,body.reading .tools,body.reading #list{display:none}
+
+  /* ---------- reader ---------- */
+  #reader{display:none}
+  body.reading #reader{display:block}
+  .rnav{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+        font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;margin:18px 0 26px}
+  .rnav a{color:var(--lac);text-decoration:none}
+  .rnav a:hover{text-decoration:underline}
+  .rnav .fol{color:var(--mut)}
+  .ahead{margin-bottom:8px}
+  .ahead .aeyebrow{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+  .ahead .atitle{font-family:var(--disp);font-weight:400;font-size:clamp(1.55rem,4.6vw,2.5rem);line-height:1.12;margin:.4rem 0 .7rem}
+  .ahead .srcline{font-family:var(--mono);font-size:.68rem}
+  .ahead .srcline a{color:var(--stamp);text-decoration:none}
+  .ahead .srcline a:hover{text-decoration:underline}
+  .abody{max-width:62ch;margin-top:26px;font-size:1.05rem;line-height:1.75;
+         border-top:2px solid var(--ink);padding-top:24px}
+  .abody p{margin:0 0 1em}
+  .abody p:empty{display:none}
+  .abody a{color:var(--stamp);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--rule)}
+  .abody a:hover{text-decoration-color:var(--stamp)}
+  .abody strong,.abody b{font-weight:600}
+  .abody h1,.abody h2,.abody h3,.abody h4,.abody h5,.abody h6{
+    font-family:var(--serif);font-weight:600;font-size:1.12rem;line-height:1.35;margin:1.7em 0 .6em}
+  .abody blockquote{border-left:3px solid var(--lac);margin:1.4em 0;padding:.1em 0 .1em 1.1em;
+    font-style:italic;color:#3A4552}
+  .abody ul,.abody ol{margin:0 0 1.1em;padding-left:1.4em}
+  .abody li{margin-bottom:.45em}
+  .abody img{display:block;max-width:100%;height:auto;margin:1.7em auto;
+    background:var(--paper2);border:1px solid var(--rule);padding:5px}
+  .abody hr{border:0;border-top:1px solid var(--rule);margin:2em 0}
+  .abody table{border-collapse:collapse;margin:1.5em 0;font-size:.85rem;width:100%}
+  .abody td,.abody th{border:1px solid var(--rule);padding:8px 10px;vertical-align:top;text-align:left}
+  .abody th{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;background:var(--paper2)}
+  .abody pre,.abody code{font-family:var(--mono);font-size:.82rem}
+  .afoot{max-width:62ch;margin-top:40px;border-top:1px solid var(--rule);padding-top:16px;
+         display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+         font-family:var(--mono);font-size:.7rem;line-height:1.7}
+  .afoot a{color:var(--ink);text-decoration:none}
+  .afoot a:hover{color:var(--lac)}
+  .afoot .dir{color:var(--mut);display:block}
+  .missing{font-family:var(--mono);font-size:.78rem;border:1px dashed var(--rule);padding:14px;margin-top:24px}
+
+  .err{border:1px solid var(--lac);background:var(--paper2);color:var(--lac);border-radius:3px;
+       padding:14px;font-family:var(--mono);font-size:.78rem;white-space:pre-wrap;margin-top:16px;line-height:1.7}
+  footer{margin-top:56px;padding-top:14px;border-top:2px solid var(--ink);font-family:var(--mono);font-size:.66rem;color:var(--mut);letter-spacing:.06em}
+
+  @media (max-width:640px){
+    body{border-left-width:6px}
+    .row{grid-template-columns:6.5ch 1fr;grid-template-rows:auto auto}
+    .row .ser{display:none}
+    .row .lb{grid-column:2;text-align:left;max-width:none}
+    .stamp{position:static;display:inline-block;margin-top:10px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .yr .got,.stamp{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">The Complete Register &middot; Dec 2008 &ndash; Aug 2026</div>
+    <h1><a href="#/">Rollingstone Revelations</a></h1>
+    <p class="standfirst">Every entry in T.&nbsp;Koshy&rsquo;s ledger of essays &mdash; management, public policy, capital markets, open networks &mdash; pulled live from the Blogger feed, <em>reconciled against the blog&rsquo;s own archive counts,</em> and readable in full below.</p>
+    <div class="stamp" id="stamp">RECONCILED<br><span id="stampN">&mdash;</span> ENTRIES</div>
+  </header>
+
+  <section class="spine" aria-label="Posts per year">
+    <div class="spine-head">
+      <span class="t">Holdings by year &middot; outline = Aug &rsquo;26 baseline &middot; fill = live</span>
+      <span id="status" role="status">Opening the register&hellip;</span>
+    </div>
+    <div class="bars" id="bars"></div>
+  </section>
+
+  <div class="tools" id="tools">
+    <input id="q" placeholder="Search titles, labels, full text" aria-label="Search entries">
+    <button id="copyMd">Copy as Markdown</button>
+    <button id="dlTsv">Download TSV</button>
+  </div>
+
+  <div id="list"></div>
+
+  <article id="reader" aria-live="polite">
+    <div class="rnav">
+      <a href="#/">&larr; Back to the register</a>
+      <span class="fol" id="folio"></span>
+    </div>
+    <div class="ahead">
+      <div class="aeyebrow" id="aeyebrow"></div>
+      <div class="atitle" id="atitle"></div>
+      <div class="srcline"><a id="asrc" href="#" target="_blank" rel="noopener">Read on the blog &nearr;</a></div>
+    </div>
+    <div class="abody" id="abody"></div>
+    <div class="afoot" id="afoot"></div>
+  </article>
+
+  <div id="errbox"></div>
+  <footer>LIVE FROM THE PUBLISHER&rsquo;S FEED &middot; NEW ENTRIES APPEAR ON EVERY VISIT, NO REBUILD &middot; SERIALS RUN CHRONOLOGICALLY FROM 001</footer>
+</div>
+<noscript><p style="font-family:monospace;padding:20px">This register needs JavaScript to load the feed.</noscript>
+
+<script>
+(function(){
+  var FEED="https://rollingstone-revelations.blogspot.com/feeds/posts/default";
+  var WIDGET={2026:17,2025:10,2024:4,2022:1,2020:2,2018:1,2017:1,2015:1,2014:8,2013:1,2012:4,2011:24,2010:50,2009:55,2008:1}; /* registered baseline, Aug 2026 */
+  var PAGE=150, MAXC=55, posts=[], byId={}, loadedOK=false, savedScroll=0, feedDeclared=0;
+  var statusEl=document.getElementById('status');
+  var MONTHS=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+  function setStatus(t,cls){statusEl.textContent=t;statusEl.className=cls||'';}
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+  function fmtDate(d){return d? d.slice(8,10)+' '+MONTHS[parseInt(d.slice(5,7),10)-1]+' '+d.slice(0,4):'';}
+
+  /* ---- spine skeleton (year range extends itself as new years publish) ---- */
+  var barsEl=document.getElementById('bars'), yrEls={};
+  function ensureYear(y){
+    if(yrEls[y]) return;
+    var exp=WIDGET[y]||0;
+    var b=document.createElement('button');
+    b.className='yr'+(exp?'':' gap');
+    b.setAttribute('aria-label',y+': '+(exp?exp+' registered':'no baseline'));
+    b.innerHTML='<span class="n"></span><span class="exp" style="height:'+(exp?6+Math.round(exp/MAXC*74):3)+'px"><span class="got"></span></span><span class="lab">\u2019'+String(y).slice(2)+'</span>';
+    (function(yy){b.addEventListener('click',function(){location.hash='#/';var t=document.getElementById('y'+yy);if(t)t.scrollIntoView();});})(y);
+    barsEl.appendChild(b); yrEls[y]=b;
+  }
+  for(var y0=2008;y0<=2026;y0++) ensureYear(y0);
+  function updateSpine(){
+    var got={}, maxY=2026;
+    posts.forEach(function(p){var y=+p.date.slice(0,4);got[y]=(got[y]||0)+1;if(y>maxY)maxY=y;});
+    for(var yy=2027;yy<=maxY;yy++) ensureYear(yy);
+    for(var y in yrEls){
+      var g=got[y]||0, e=WIDGET[y]||0, el=yrEls[y];
+      if(!e && g>0){ /* year beyond the registered baseline: outline follows live count */
+        el.classList.remove('gap');
+        el.querySelector('.exp').style.height=(6+Math.round(g/MAXC*74))+'px';
+        el.querySelector('.got').style.height='100%';
+        el.classList.add('match');
+      } else {
+        el.querySelector('.got').style.height=e?Math.round(g/e*100)+'%':'0%';
+        el.classList.toggle('match', e>0 && g>=e);
+      }
+      el.querySelector('.n').textContent=g||'';
+    }
+  }
+
+  /* ---- HTML sanitizer for feed content ---- */
+  var BAD={SCRIPT:1,STYLE:1,IFRAME:1,OBJECT:1,EMBED:1,FORM:1,LINK:1,META:1,INPUT:1,BUTTON:1,VIDEO:1,AUDIO:1,NOSCRIPT:1};
+  var KEEP={P:1,BR:1,B:1,STRONG:1,I:1,EM:1,U:1,S:1,UL:1,OL:1,LI:1,BLOCKQUOTE:1,H1:1,H2:1,H3:1,H4:1,H5:1,H6:1,A:1,IMG:1,TABLE:1,THEAD:1,TBODY:1,TR:1,TD:1,TH:1,SPAN:1,DIV:1,HR:1,SUB:1,SUP:1,FIGURE:1,FIGCAPTION:1,CENTER:1,PRE:1,CODE:1};
+  function sanitize(html){
+    var t=document.createElement('template'); t.innerHTML=html||'';
+    (function walk(node){
+      var c=node.firstChild;
+      while(c){
+        var next=c.nextSibling;
+        if(c.nodeType===1){
+          var tag=c.tagName;
+          if(BAD[tag]){ node.removeChild(c); }
+          else{
+            walk(c);
+            if(!KEEP[tag]){ while(c.firstChild) node.insertBefore(c.firstChild,c); node.removeChild(c); }
+            else{
+              for(var i=c.attributes.length-1;i>=0;i--){
+                var a=c.attributes[i], n=a.name.toLowerCase(), v=a.value;
+                var ok=(tag==='A'&&n==='href'&&/^(https?:|\/)/i.test(v))
+                     ||(tag==='IMG'&&n==='src'&&/^https?:/i.test(v))
+                     ||(tag==='IMG'&&n==='alt')
+                     ||((tag==='TD'||tag==='TH')&&(n==='colspan'||n==='rowspan'));
+                if(!ok) c.removeAttribute(a.name);
+              }
+              if(tag==='A'&&c.getAttribute('href')){c.setAttribute('target','_blank');c.setAttribute('rel','noopener');}
+              if(tag==='IMG'){c.setAttribute('loading','lazy');}
+            }
+          }
+        } else if(c.nodeType===8){ node.removeChild(c); }
+        c=next;
+      }
+    })(t.content);
+    return t.innerHTML;
+  }
+  function txt(p){
+    if(p._txt==null){var t=document.createElement('template');t.innerHTML=p.html||'';p._txt=(t.content.textContent||'').toLowerCase();}
+    return p._txt;
+  }
+
+  /* ---- feed parsing (content ships in the same requests) ---- */
+  function parseFeed(feed){
+    var total=parseInt((feed.openSearch$totalResults||{}).$t||"0",10);
+    if(total) feedDeclared=total;
+    (feed.entry||[]).forEach(function(e){
+      var link=(e.link||[]).filter(function(l){return l.rel==='alternate';})[0];
+      var idm=((e.id||{}).$t||'').match(/post-(\d+)/);
+      posts.push({
+        id: idm?idm[1]:'x'+posts.length,
+        date:(e.published.$t||'').slice(0,10),
+        title:((e.title||{}).$t||'(untitled)').replace(/\s+/g,' ').trim()||'(untitled)',
+        url:link?link.href:'',
+        labels:(e.category||[]).map(function(c){return c.term;}).join(', '),
+        html:(e.content&&e.content.$t)||(e.summary&&e.summary.$t)||''
+      });
+    });
+    updateSpine();
+    setStatus('Receiving\u2026 '+posts.length+' of '+(total||'?'));
+    return total;
+  }
+
+  /* ---- strategy 1: direct fetch ---- */
+  function tryFetch(start){
+    return fetch(FEED+"?alt=json&max-results="+PAGE+"&start-index="+start)
+      .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+      .then(function(d){
+        var total=parseFeed(d.feed);
+        if(posts.length<total && (d.feed.entry||[]).length>0){return tryFetch(start+PAGE);}
+      });
+  }
+  /* ---- strategy 2: Blogger JSONP ---- */
+  var jsonpN=0;
+  function jsonpPage(start){
+    return new Promise(function(res,rej){
+      var cb="__koshyCb"+(jsonpN++);
+      var s=document.createElement('script');
+      var t=setTimeout(function(){cleanup();rej(new Error("JSONP timed out \u2014 script-src blocked here"));},15000);
+      function cleanup(){clearTimeout(t);delete window[cb];s.remove();}
+      window[cb]=function(d){cleanup();res(d);};
+      s.onerror=function(){cleanup();rej(new Error("JSONP script load blocked"));};
+      s.src=FEED+"?alt=json-in-script&max-results="+PAGE+"&start-index="+start+"&callback="+cb;
+      document.head.appendChild(s);
+    });
+  }
+  function tryJsonp(start){
+    return jsonpPage(start).then(function(d){
+      var total=parseFeed(d.feed);
+      if(posts.length<total && (d.feed.entry||[]).length>0){return tryJsonp(start+PAGE);}
+    });
+  }
+
+  /* ---- register view ---- */
+  function render(filter){
+    var f=(filter||'').toLowerCase(), byYear={};
+    posts.forEach(function(p){
+      if(f && p.title.toLowerCase().indexOf(f)<0 && p.labels.toLowerCase().indexOf(f)<0 && txt(p).indexOf(f)<0) return;
+      var y=p.date.slice(0,4);(byYear[y]=byYear[y]||[]).push(p);
+    });
+    var html='';
+    Object.keys(byYear).sort().reverse().forEach(function(y){
+      var got=posts.filter(function(p){return p.date.slice(0,4)===y;}).length, want=WIDGET[y];
+      var meta = f ? byYear[y].length+' matching'
+        : got+' entr'+(got===1?'y':'ies')+(
+            !want ? ' \u00b7 <span class="v">new since registration</span>'
+          : got===want ? ' \u00b7 <span class="v">reconciled \u2713</span>'
+          : got>want ? ' \u00b7 <span class="v">+'+(got-want)+' since registration</span>'
+          : ' \u00b7 <span class="x">baseline '+want+' \u2014 short</span>');
+      html+='<div class="yhead" id="y'+y+'"><span class="y">'+y+'</span><span class="meta">'+meta+'</span></div>';
+      byYear[y].forEach(function(p){
+        html+='<div class="row"><span class="ser">'+String(p.serial).padStart(3,'0')+'</span>'+
+          '<span class="d">'+p.date.slice(5).replace('-','\u2009\u00b7\u2009')+'</span>'+
+          '<span><a href="#/p/'+p.id+'">'+esc(p.title)+'</a></span>'+
+          '<span class="lb">'+esc(p.labels)+'</span></div>';
+      });
+    });
+    document.getElementById('list').innerHTML=html||'<p style="margin-top:20px">Nothing in the register matches that search.</p>';
+  }
+
+  /* ---- reader view ---- */
+  function showArticle(id){
+    var p=byId[id]; if(!p){location.hash='#/';return;}
+    if(!document.body.classList.contains('reading')) savedScroll=window.scrollY;
+    document.body.classList.add('reading');
+    var i=posts.indexOf(p);
+    document.getElementById('folio').textContent='FOLIO '+String(p.serial).padStart(3,'0')+' / '+posts.length;
+    document.getElementById('aeyebrow').textContent=fmtDate(p.date)+(p.labels?' \u00b7 '+p.labels.toUpperCase():'');
+    document.getElementById('atitle').textContent=p.title;
+    var src=document.getElementById('asrc');
+    if(p.url){src.href=p.url;src.style.display='';}else{src.style.display='none';}
+    document.getElementById('abody').innerHTML = p.html
+      ? sanitize(p.html)
+      : '<div class="missing">FULL TEXT NOT INCLUDED IN THE FEED FOR THIS ENTRY \u2014 use the link above to read it on the blog.</div>';
+    var newer=posts[i-1], older=posts[i+1], foot='';
+    foot+= older?'<a href="#/p/'+older.id+'"><span class="dir">&larr; OLDER \u00b7 '+fmtDate(older.date)+'</span>'+esc(older.title)+'</a>':'<span></span>';
+    foot+= newer?'<a href="#/p/'+newer.id+'" style="text-align:right"><span class="dir">NEWER \u00b7 '+fmtDate(newer.date)+' &rarr;</span>'+esc(newer.title)+'</a>':'<span></span>';
+    document.getElementById('afoot').innerHTML=foot;
+    document.title=p.title+' \u2014 Rollingstone Revelations';
+    window.scrollTo(0,0);
+  }
+  function showRegister(){
+    var was=document.body.classList.contains('reading');
+    document.body.classList.remove('reading');
+    document.title='Rollingstone Revelations \u2014 The Complete Register';
+    if(was) window.scrollTo(0,savedScroll);
+  }
+  function route(){
+    var m=location.hash.match(/^#\/p\/(\w+)/);
+    if(m && loadedOK) showArticle(m[1]); else if(!m) showRegister();
+  }
+  window.addEventListener('hashchange',route);
+
+  function done(via){
+    posts.sort(function(a,b){return a.date<b.date?1:-1;});
+    posts.forEach(function(p,i){p.serial=posts.length-i;byId[p.id]=p;});
+    loadedOK=true;
+    updateSpine();
+    var reconciled = feedDeclared>0 && posts.length===feedDeclared;
+    var synced=new Date().toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+    setStatus(posts.length+' of '+(feedDeclared||'?')+' declared \u00b7 synced '+synced+(reconciled?' \u00b7 reconciled':' \u00b7 INCOMPLETE'), reconciled?'ok':'');
+    if(reconciled){document.getElementById('stampN').textContent=posts.length;document.getElementById('stamp').classList.add('show');}
+    document.getElementById('tools').classList.add('on');
+    render();
+    route();
+    document.getElementById('q').addEventListener('input',function(e){render(e.target.value);});
+    document.getElementById('copyMd').onclick=function(){
+      var md=posts.map(function(p){return "- **"+p.date+"** \u2014 ["+p.title.replace(/\[/g,'(').replace(/\]/g,')')+"]("+p.url+")"+(p.labels?" \u2014 *"+p.labels+"*":"");}).join("\n");
+      (navigator.clipboard?navigator.clipboard.writeText(md):Promise.reject()).then(
+        function(){setStatus(posts.length+' entries copied as Markdown.','ok');},
+        function(){var ta=document.createElement('textarea');ta.value=md;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();setStatus('Copied.','ok');});
+    };
+    document.getElementById('dlTsv').onclick=function(){
+      var tsv="date\ttitle\turl\tlabels\n"+posts.map(function(p){return [p.date,p.title,p.url,p.labels].join("\t");}).join("\n");
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([tsv],{type:'text/tab-separated-values'}));
+      a.download="koshy_blog_index.tsv";a.click();URL.revokeObjectURL(a.href);
+    };
+  }
+
+  tryFetch(1).then(function(){done("direct fetch");}).catch(function(e1){
+    posts=[];updateSpine();setStatus("Direct fetch refused ("+e1.message+") \u2014 switching to Blogger JSONP\u2026");
+    tryJsonp(1).then(function(){done("JSONP");}).catch(function(e2){
+      setStatus("Register unavailable in this frame.");
+      document.getElementById('errbox').innerHTML='<div class="err">BOTH LOADERS WERE REFUSED HERE.\n'+
+        'direct fetch \u2192 '+esc(e1.message)+'\nJSONP \u2192 '+esc(e2.message)+
+        '\n\nTO OPEN THE FULL REGISTER:\n1. Download this file and open it directly in a browser \u2014 both loaders work outside this preview frame.\n2. Or run build_index.py on any machine with internet access.</div>';
+    });
+  });
+})();
+</script>
+</body>
+</html>

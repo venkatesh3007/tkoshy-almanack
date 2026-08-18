@@ -1,0 +1,25 @@
+{
+  "name": "thampykoshy-com",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rollingstone Revelations — T. Koshy's blog, statically rendered from the Blogger feed for thampykoshy.com",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^15.4.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "sanitize-html": "^2.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@types/sanitize-html": "^2.13.0",
+    "typescript": "^5.7.2"
+  }
+}
