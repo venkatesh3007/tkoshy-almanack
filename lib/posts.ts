@@ -21,7 +21,8 @@ export interface Post {
   thumbnail: string | null; // large variant, for OG/social
 }
 
-const PAGE_SIZE = 150;
+// Kept small so each feed response stays under Vercel's 2MB fetch-cache limit.
+const PAGE_SIZE = 50;
 const REVALIDATE_SECONDS = 3600;
 
 /* ---------- helpers ---------- */
