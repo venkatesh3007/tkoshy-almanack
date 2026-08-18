@@ -1,5 +1,5 @@
 export const SITE = {
-  url: "https://thampykoshy.com",
+  url: "https://tkoshy.me",
   name: "Rollingstone Revelations",
   author: "T. Koshy",
   tagline:
